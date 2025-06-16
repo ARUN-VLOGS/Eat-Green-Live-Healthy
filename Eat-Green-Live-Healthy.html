@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eat Green Live Healthy</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .offer {
+      padding: 10px;
+    }
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 10px;
+    }
+    .product {
+      border: 1px solid #ccc;
+      margin: 10px;
+      padding: 10px;
+      width: 250px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    .product img {
+      width: 100%;
+      height: auto;
+    }
+    .btn {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .cart {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 250px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+    .cart h3 { margin-top: 0; }
+    .cart ul { padding-left: 18px; }
+    .checkout {
+      margin-top: 10px;
+    }
+    .reviews, .tracking {
+      padding: 20px;
+      border-top: 1px solid #ccc;
+    }
+    .review-input, .tracking-input {
+      margin: 10px 0;
+    }
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+    @media (max-width: 768px) {
+      .product {
+        width: 90%;
+      }
+      .cart {
+        width: 90%;
+        left: 5%;
+        right: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>Eat Green Live Healthy</header>
+
+<div class="offer">
+  <h2 style="color: red; text-align: center;">🔥 Limited Time Offer: 25% OFF on All Products! Now ₹150 only 🔥</h2>
+</div>
+
+<div class="cart" id="cart">
+  <h3>🛒 Cart</h3>
+  <ul id="cart-items"></ul>
+  <p><strong>Total: ₹<span id="total">0</span></strong></p>
+  <div class="checkout">
+    <a id="upi-link" href="#" target="_blank" class="btn">Pay via UPI</a>
+  </div>
+</div>
+
+<div class="products">
+  <!-- Products list same as before -->
+</div>
+
+<div class="reviews">
+  <h2>🌟 Customer Reviews</h2>
+  <div id="review-list"></div>
+  <div class="review-input">
+    <textarea id="review-text" placeholder="Write your review..."></textarea>
+    <button class="btn" onclick="submitReview()">Submit Review</button>
+  </div>
+</div>
+
+<div class="tracking">
+  <h2>📦 Track Your Order</h2>
+  <div class="tracking-input">
+    <input type="text" id="order-id" placeholder="Enter your Order ID">
+    <button class="btn" onclick="trackOrder()">Track</button>
+    <p id="tracking-result"></p>
+  </div>
+</div>
+
+<script>
+  let cart = [];
+  function addToCart(productName) {
+    cart.push(productName);
+    updateCart();
+  }
+  function updateCart() {
+    const cartItems = document.getElementById('cart-items');
+    cartItems.innerHTML = '';
+    let total = 0;
+    cart.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item + ' - ₹150';
+      cartItems.appendChild(li);
+      total += 150;
+    });
+    document.getElementById('total').textContent = total;
+    const upiLink = document.getElementById('upi-link');
+    const upiId = '9994663553@ybl';
+    const message = encodeURIComponent('Payment for microgreens');
+    upiLink.href = `upi://pay?pa=${upiId}&pn=EatGreen&am=${total}&cu=INR&tn=${message}`;
+  }
+
+  function submitReview() {
+    const reviewText = document.getElementById('review-text').value;
+    if (reviewText.trim()) {
+      const reviewList = document.getElementById('review-list');
+      const p = document.createElement('p');
+      p.textContent = reviewText;
+      reviewList.appendChild(p);
+      document.getElementById('review-text').value = '';
+    }
+  }
+
+  function trackOrder() {
+    const orderId = document.getElementById('order-id').value.trim();
+    const result = document.getElementById('tracking-result');
+    if (orderId) {
+      result.textContent = `Order ID ${orderId} is being prepared. Estimated delivery in 3-5 days.`;
+    } else {
+      result.textContent = 'Please enter a valid Order ID.';
+    }
+  }
+</script>
+
+</body>
+</html>
